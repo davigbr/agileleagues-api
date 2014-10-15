@@ -1,0 +1,48 @@
+{
+  "name": "agileleagues-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davigbr/agileleagues-api"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davigbr/agileleagues-api/issues"
+  },
+  "homepage": "https://github.com/davigbr/agileleagues-api",
+  "dependencies": {
+    "waferpie": "^0.7.0"
+  },
+  "devDependencies": {
+    "blanket": "~1.1.6",
+    "expect.js": "^0.3.1",
+    "grunt": "~0.4.5",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-exec": "~0.4.6",
+    "grunt-mocha-test": "~0.11.0",
+    "jslint": "~0.6.1",
+    "load-grunt-tasks": "~0.6.0",
+    "mocha": "~1.21.4",
+    "mocha-cov-reporter": "^1.1.0",
+    "travis-cov": "^0.2.5"
+  },
+  "scripts": {
+    "pretest": "jslint --node --vars --devel --nomen --stupid --indent 4 --maxlen 2048 `find app/src app/test -regex '.*\\.js$' -type f | tr '\\n' ' '`",
+    "test": "mocha app/test --recursive -R spec && mocha app/test --recursive -r blanket -R html-cov > report.html",
+    "posttest": "mocha app/test --recursive -r blanket -R travis-cov"
+  },
+  "config": {
+    "blanket": {
+      "pattern": "app/src",
+      "data-cover-never": "node_modules"
+    },
+    "mocha-cov-reporter": {
+      "failOnError": true,
+      "threshold": 95,
+      "useColors": true
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "version" : "1.0.0",
+    "requestTimeout" : 10000,
+    "debug" : true,
+    "bridges" : {
+
+    },
+    "dataSources" : {
+        "default" : {
+            "type" : "Couchbase",
+            "host" : "0.0.0.0",
+            "port" : "8091",
+            "index" : "index"
+        }
+    }
+}
