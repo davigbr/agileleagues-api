@@ -30,7 +30,7 @@
     "travis-cov": "^0.2.5"
   },
   "scripts": {
-    "pretest": "jslint --node --vars --devel --nomen --stupid --indent 4 --maxlen 2048 `find app/src app/test -regex '.*\\.js$' -type f | tr '\\n' ' '`",
+    "pretest": "jslint `find app/src app/test -regex '.*\\.js$' -type f | tr '\\n' ' '`",
     "test": "mocha app/test --recursive -R spec && mocha app/test --recursive -r blanket -R html-cov > report.html",
     "posttest": "mocha app/test --recursive -r blanket -R travis-cov"
   },

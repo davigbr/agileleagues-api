@@ -30,3 +30,4 @@ node_modules
 .idea/
 .sublime-project*
 report.html
+.lint.out

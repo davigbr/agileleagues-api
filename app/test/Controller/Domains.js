@@ -1,3 +1,4 @@
+/*jslint nomen: true*/
 /*globals describe, beforeEach, it*/
 'use strict';
 
