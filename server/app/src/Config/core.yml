@@ -1,0 +1,11 @@
+version: "1.0.0"
+requestTimeout: 10000
+debug: true
+bridges:
+dataSources:
+    default:
+        user: "root"
+        password: ""
+        host: "127.0.0.1"
+        port: 3306
+        database: "agileleagues2"

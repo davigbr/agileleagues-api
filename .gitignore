@@ -31,3 +31,4 @@ node_modules
 .sublime-project*
 report.html
 .lint.out
+dist
