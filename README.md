@@ -1,9 +1,11 @@
 # Agile Leagues API
 
 ## Public API
+
 **Game Masters**
-POST /masters/
- PUT /masters/:id
+
+- POST /masters/
+- PUT /masters/:id
 
 ## Game Master API
 
