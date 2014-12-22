@@ -1,58 +1,34 @@
-# GET /domains/:gameMasterId/
-# GET /domains/:gameMasterId/:id
-
-# PUT /domains/:gameMasterId/
-# PUT /domains/:gameMasterId/:id
-
-# DELETE /domains/:gameMasterId/
-# DELETE /domains/:gameMasterId/:id
-
-
 class Domains
-    handleError: (error) ->
-        @statusCode = 500
-        console.log error.toString()
-        return error
-
     before: (callback) ->
+        @gameMasterId = parseInt @segments[0]
+        @id = parseInt @segments[1]
+
+        if isNaN @gameMasterId
+            @statusCode = 500
+            return callback
+                message: 'Game Master Id not present in the URL'
+
         @domain = @model 'Domain'
+        $ = @component 'QueryBuilder'
+        @cimple = @component 'Cimple',
+            model: @domain
+            controller: @
+            conditions: $.equal 'player_id_owner', @gameMasterId
+
         callback true
 
     get: (callback) ->
-        id = @segments[0]
-
-        if id
-            @domain.findById id, (err, rows) =>
-                if err
-                    @statusCode = 500
-                    return callback @handleError err
-
-                callback rows
-        else
-            @domain.findAll (err, rows) =>
-                if err
-                    @statusCode = 500
-                    callback @handleError err
-                else
-                    callback rows
+        @cimple.get @id, callback
 
     put: (callback) ->
-        id = @segments[0]
-        if id
-            callback {}
-        else
-            @domain.create @payload, (err, data) =>
-                if err
-                    @statusCode = 500
-                    return callback @handleError err
-
-                @statusCode = 201
-                callback data
+        @cimple.put @id, @payload, callback
 
     delete: (callback) ->
-        callback {}
+        @cimple.delete @id, callback
 
     post: (callback) ->
-        callback {}
+        data = @payload
+        data.player_id_owner = @gameMasterId
+        @cimple.post data, callback
 
 module.exports = Domains

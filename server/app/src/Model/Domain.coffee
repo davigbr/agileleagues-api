@@ -3,40 +3,38 @@ class Domain
         @table = 'domain'
 
     init: ->
-        @mysql = @component('DataSource.MySQL')
-        @q = @component('QueryBuilder')
+        @validate =
+            id: {}
+            name:
+                maxLength:
+                    params: [30]
+                    message: 'Must contain less than 30 chars'
+            color:
+                regex:
+                    params: [/\#[a-fA-F0-9]{6}/]
+                    message: 'Must be a valid hex color string (ex: #ffdd00)'
+            description:
+                maxLength:
+                    params: [200]
+                    message: 'Must contain less than 200 chars'
+            icon:
+                maxLength:
+                    params: [50]
+                    message: 'Must contain less than 50 chars'
+            created:
+                datetime:
+                    message: 'Must be a datetime'
+            inactive:
+                isBoolean:
+                    message: 'Must be a boolean'
+            player_id_owner:
+                isInteger:
+                    message: 'Must be an integer'
 
-    findAll: (callback) ->
-        sql = @q.selectStarFrom(@table).build()
-        @mysql.query sql, [], (err, rows) =>
-            callback err, rows
+        @ninja = @component 'Database.MyNinja',
+            validate: @validate
+            table: 'domain'
+        @ninja.bind @
 
-    findById: (id, callback) ->
-        sql = @q
-            .selectStarFrom(@table)
-            .where(@q.equal('id', id))
-            .build()
-        @mysql.query sql, [], callback
-
-    remove: (id, callback) ->
-        sql = @q.deleteFrom(@table).where($q.equal 'id', id).build()
-        @mysql.query sql, [], callback
-
-    removeAll: (callback) ->
-        sql = @q.deleteFrom(@table).build()
-        @mysql.query sql, [], callback
-
-    create: (data, callback) ->
-        data[i] = @q.escape(data[i]) for i of data
-        sql = @q.insertInto(@table).set(data).build()
-        @mysql.query sql, [], (err, rows) =>
-            return callback err if err
-            callback rows
-
-    exists: (id, callback) ->
-        sql = @q.select('id').from(@table).where($q.equal 'id', id).build()
-        @mysql.query sql, [], (err, results) =>
-            return callback err if err
-            callback results.length > 0
 
 module.exports = Domain
